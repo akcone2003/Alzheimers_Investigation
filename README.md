@@ -1,4 +1,4 @@
-# Data Dictionary
+#Data Dictionary
 ## Patient Information
 * __PatientID__: A unique identifier assigned to each patient (4751 to 6900).
 <br>
