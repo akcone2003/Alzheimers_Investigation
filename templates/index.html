@@ -1,0 +1,142 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probability of Developing Alzheimer's</title>
+</head>
+<body style="background: white;">
+<div class="login">
+    <h1 style="color:Blue;">Alzheimer's Prediction</h1>
+    <form action="{{ url_for('predict')}}" method="post">
+        <input type="range" min="60" max="90" name="Age" placeholder="Age" required="required" /><br>
+
+        <select name="Gender">
+            <option value="0">Male</option>
+            <option value="1">Female</option>
+        </select><br>
+
+        <select name="Ethnicity">
+            <option value="0">Caucasian</option>
+            <option value="1">African American</option>
+            <option value="2">Asian</option>
+            <option value="3">Other</option>
+        </select><br>
+
+        <select name="EducationLevel">
+            <option value="0">None</option>
+            <option value="1">High School</option>
+            <option value="2">Bachelor's</option>
+            <option value="3">Higher</option>
+        </select><br>
+
+        <input type="range" min="15" max="40"  name="BMI" placeholder="BMI" required="required" /><br>
+
+        <select name="Smoking">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br>
+
+        <input type="range" min="0" max="20"  name="AlcoholConsumption" placeholder="Alcohol Consumption" required="required" /><br>
+
+        <input type="range" min="0" max="10"  name="PhysicalActivity" placeholder="Physical Activity" required="required" /><br>
+
+        <input type="range" min="0" max="10"  name="DietQuality" placeholder="Diet Quality" required="required" /><br>
+
+        <!-- Add the rest of the fields in a similar manner -->
+        <input type="range" min="0" max="10"  name="DietQuality" placeholder="Diet Quality" required="required" /><br>
+
+        <input type="range" min="4" max="10"  name="SleepQuality" placeholder="Sleep Quality" required="required" /><br>
+
+        <select name="FamilyHistoryAlzheimers">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br>
+
+        <select name="CardiovascularDisease">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br>
+
+        <select name="Diabetes">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br>
+
+        <select name="Depression">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br>
+
+        <select name="HeadInjury">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br>
+
+        <select name="Hypertension">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br>
+
+        <input type="range" min="90" max="180" name="SystolicBP" placeholder="Systolic BP" required="required" /><br>
+
+        <input type="range" min="60" max="120" name="DiastolicBP" placeholder="Diastolic BP" required="required" /><br>
+
+        <input type="range" min="150" max="300"  name="CholesterolTotal" placeholder="Cholesterol Total" required="required" /><br>
+
+        <input type="range" min="50" max="200"  name="CholesterolLDL" placeholder="Cholesterol LDL" required="required" /><br>
+
+        <input type="range" min="20" max="100"  name="CholesterolHDL" placeholder="Cholesterol HDL" required="required" /><br>
+
+        <input type="range" min="50" max="400"  name="CholesterolTriglycerides" placeholder="Cholesterol Triglycerides" required="required" /><br>
+
+        <input type="range" min="0" max="30"  name="MMSE" placeholder="MMSE Score" required="required" /><br>
+
+        <input type="range" min="0" max="10"  name="FunctionalAssessment" placeholder="Functional Assessment" required="required" /><br>
+
+        <select name="MemoryComplaints">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br>
+
+        <select name="BehavioralProblems">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br>
+
+        <input type="range" min="0" max="10"  name="ADL" placeholder="Activities of Daily Living Score" required="required" /><br>
+
+        <select name="Confusion">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br>
+
+        <select name="Disorientation">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br>
+
+        <select name="PersonalityChanges">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br>
+
+        <select name="DifficultyCompletingTasks">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br>
+
+        <select name="Forgetfulness">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br>
+        <button type="submit" class="btn btn-primary btn-block btn-large">Predict Chances of Developing Alzheimer's</button>
+    </form>
+
+    <br>
+    <br>
+    <h4 style="color:Green;">
+        {{ prediction_text }}
+    </h4>
+</div>
+</body>
+</html>
