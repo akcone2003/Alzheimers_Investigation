@@ -6,7 +6,8 @@ import pickle
 app = Flask(__name__)
 
 # Load trained model
-model = pickle.load(open("models/model.pk1", "rb"))
+with open("models/model.pkl", "rb") as file:
+    model = pickle.load(file)
 
 
 # Define route to be home
@@ -27,11 +28,11 @@ def predict():
     int_features = [float(x) for x in request.form.values()]  # convert string input into float
     features = [np.array(int_features)]  # convert to array
 
-    prediction = model.predict(features)  # predict on input
+    prediction = model.predict_proba(features)  # predict on input
 
-    output = round(prediction[0], 2)
+    output = round(prediction[0][1], 2)
 
-    return render_template('index.html', prediction_text='The predicted value is {}'.format(output))
+    return render_template('index.html', prediction_text="The probability of Alzheimer's is {}".format(output))
 
 
 if __name__ == '__main__':
