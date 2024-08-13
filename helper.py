@@ -3,6 +3,16 @@ import numpy as np
 import matplotlib
 from matplotlib import pyplot as plt
 from sklearn.metrics import confusion_matrix
+from sklearn.ensemble import RandomForestClassifier
+
+
+def get_weights(df, columns):
+    X = df[columns]
+    y = df['target']
+    model = RandomForestClassifier()
+    model.fit(X, y)
+    weights = model.feature_importances_
+    return dict(zip(columns, weights))
 
 
 # Helper functions
@@ -192,3 +202,5 @@ def draw_contour(x, y, clf, class_labels=["Negative", "Positive"]):
 
     plt.xlim(xx0.min(), xx0.max())
     plt.ylim(xx1.min(), xx1.max())
+
+#%%
