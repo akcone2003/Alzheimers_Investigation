@@ -1,4 +1,4 @@
 options:
-  logging: NONE
+  logging: CLOUD_LOGGING_ONLY
   service_account: "alzheimers-prediction-001@appspot.gserviceaccount.com"
 
