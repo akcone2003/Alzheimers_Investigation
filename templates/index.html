@@ -3,187 +3,251 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Probability of Developing Alzheimer's</title>
+
+    <style>
+        .container {
+            display: flex;
+        }
+        .content {
+            width: 50%;
+        }
+    </style>
 </head>
 <body style="background: white;">
-<div class="login">
-    <h1 style="color:Black;">Alzheimer's Prediction</h1>
-    <form action="{{ url_for('predict')}}" method="post">
-        <script>
-            // Update the slider value
-            function updateSliderValue(value, elementId) {
-                document.getElementById(elementId).textContent = value;
-            }
 
-            // Initialize the slider value on page load
-            window.onload = function() {
-                let inputIds = ['Age', 'BMI', 'AlcoholConsumption', 'PhysicalActivity', 'DietQuality', 'SleepQuality', 'SystolicBP',
-                'DiastolicBP', 'CholesterolTotal', 'CholesterolLDL', 'CholesterolHDL', 'CholesterolTriglycerides', 'MMSE', 'FunctionalAssessment', 'ADL'];
-
-                for (let i = 0; i < inputIds.length; i++) {
-                    updateSliderValue(document.getElementById(inputIds[i]).value, inputIds[i] + 'Value');
+<div class="container">
+    <div class="content">
+        <h1 style="color:Black;">Alzheimer's Prediction</h1>
+        <form action="{{ url_for('predict')}}" method="post">
+            <script>
+                // Update the slider value
+                function updateSliderValue(value, elementId) {
+                    document.getElementById(elementId).textContent = value;
                 }
-            };
-        </script>
 
-        <label for="Age">Age: <span id="ageValue"></span></label>
-        <input type="range" min="10" max="90" name="Age" id="Age" oninput="updateSliderValue(this.value, 'ageValue')" /><br>
+                // Initialize the slider value on page load
+                window.onload = function() {
+                    let inputIds = ['Age', 'BMI', 'AlcoholConsumption', 'PhysicalActivity', 'DietQuality', 'SleepQuality', 'SystolicBP',
+                    'DiastolicBP', 'CholesterolTotal', 'CholesterolLDL', 'CholesterolHDL', 'CholesterolTriglycerides', 'MMSE', 'FunctionalAssessment', 'ADL'];
 
-        <label for="Gender">Gender</label>
-        <select name="Gender" id="Gender">
-            <option value="0">Male</option>
-            <option value="1">Female</option>
-        </select><br>
+                    for (let i = 0; i < inputIds.length; i++) {
+                        updateSliderValue(document.getElementById(inputIds[i]).value, inputIds[i] + 'Value');
+                    }
+                };
+            </script>
 
-        <label for="Ethnicity">Ethnicity</label>
-        <select name="Ethnicity" id="Ethnicity">
-            <option value="0">Caucasian</option>
-            <option value="1">African American</option>
-            <option value="2">Asian</option>
-            <option value="3">Other</option>
-        </select><br>
+            <label for="Age">Age: <span id="ageValue"></span></label>
+            <input type="range" min="10" max="90" name="Age" id="Age" oninput="updateSliderValue(this.value, 'ageValue')" /><br>
 
-        <label for="EducationLevel">Education Level</label>
-        <select name="EducationLevel" id="EducationLevel">
-            <option value="0">None</option>
-            <option value="1">High School</option>
-            <option value="2">Bachelor's</option>
-            <option value="3">Higher</option>
-        </select><br>
+            <label for="Gender">Gender</label>
+            <select name="Gender" id="Gender">
+                <option value="0">Male</option>
+                <option value="1">Female</option>
+            </select><br>
 
-        <label for="BMI">BMI: <span id="BMIValue"></span></label>
-        <input type="range" min="15" max="40"  name="BMI" id="BMI" oninput="updateSliderValue(this.value, 'BMIValue')" /><br>
+            <label for="Ethnicity">Ethnicity</label>
+            <select name="Ethnicity" id="Ethnicity">
+                <option value="0">Caucasian</option>
+                <option value="1">African American</option>
+                <option value="2">Asian</option>
+                <option value="3">Other</option>
+            </select><br>
 
-        <label for="Smoking">Smoking</label>
-        <select name="Smoking" id="Smoking">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </select><br>
+            <label for="EducationLevel">Education Level</label>
+            <select name="EducationLevel" id="EducationLevel">
+                <option value="0">None</option>
+                <option value="1">High School</option>
+                <option value="2">Bachelor's</option>
+                <option value="3">Higher</option>
+            </select><br>
 
-        <label for="AlcoholConsumption">Alcohol Consumption: <span id="AlcoholConsumptionValue"></span></label>
-        <input type="range" min="0" max="20"  name="AlcoholConsumption" id="AlcoholConsumption" oninput="updateSliderValue(this.value, 'AlcoholConsumptionValue')" /><br>
+            <label for="BMI">BMI: <span id="BMIValue"></span></label>
+            <input type="range" min="15" max="40"  name="BMI" id="BMI" oninput="updateSliderValue(this.value, 'BMIValue')" /><br>
 
-        <label for="PhysicalActivity">Physical Activity: <span id="PhysicalActivityValue"></span></label>
-        <input type="range" min="0" max="10"  name="PhysicalActivity" id="PhysicalActivity" oninput="updateSliderValue(this.value, 'PhysicalActivityValue')" /><br>
+            <label for="Smoking">Smoking</label>
+            <select name="Smoking" id="Smoking">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br>
 
-        <label for="DietQuality">Diet Quality: <span id="DietQualityValue"></span></label>
-        <input type="range" min="0" max="10"  name="DietQuality" id="DietQuality" oninput="updateSliderValue(this.value, 'DietQualityValue')" /><br>
+            <label for="AlcoholConsumption">Alcohol Consumption: <span id="AlcoholConsumptionValue"></span></label>
+            <input type="range" min="0" max="20"  name="AlcoholConsumption" id="AlcoholConsumption" oninput="updateSliderValue(this.value, 'AlcoholConsumptionValue')" /><br>
 
-        <label for="SleepQuality">Sleep Quality: <span id="SleepQualityValue"></span></label>
-        <input type="range" min="4" max="10"  name="SleepQuality" id="SleepQuality" oninput="updateSliderValue(this.value, 'SleepQualityValue')" /><br>
+            <label for="PhysicalActivity">Physical Activity: <span id="PhysicalActivityValue"></span></label>
+            <input type="range" min="0" max="10"  name="PhysicalActivity" id="PhysicalActivity" oninput="updateSliderValue(this.value, 'PhysicalActivityValue')" /><br>
 
-        <label for="FamilyHistoryAlzheimers">Family History of Alzheimer's</label>
-        <select name="FamilyHistoryAlzheimers" id="FamilyHistoryAlzheimers">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </select><br>
 
-        <label for="CardiovascularDisease">Cardiovascular Disease</label>
-        <select name="CardiovascularDisease" id="CardiovascularDisease">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </select><br>
+            <label for="DietQuality">Diet Quality: <span id="DietQualityValue"></span></label>
+            <input type="range" min="0" max="10"  name="DietQuality" id="DietQuality" oninput="updateSliderValue(this.value, 'DietQualityValue')" /><br>
 
-        <label for="Diabetes">Diabetes</label>
-        <select name="Diabetes" id="Diabetes">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </select><br>
+            <label for="SleepQuality">Sleep Quality: <span id="SleepQualityValue"></span></label>
+            <input type="range" min="4" max="10"  name="SleepQuality" id="SleepQuality" oninput="updateSliderValue(this.value, 'SleepQualityValue')" /><br>
 
-        <label for="Depression">Depression</label>
-        <select name="Depression" id="Depression">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </select><br>
+            <label for="FamilyHistoryAlzheimers">Family History of Alzheimer's</label>
+            <select name="FamilyHistoryAlzheimers" id="FamilyHistoryAlzheimers">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br>
 
-        <label for="HeadInjury">Head Injury</label>
-        <select name="HeadInjury" id="HeadInjury">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </select><br>
+            <label for="CardiovascularDisease">Cardiovascular Disease</label>
+            <select name="CardiovascularDisease" id="CardiovascularDisease">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br>
 
-        <label for="Hypertension">Hypertension</label>
-        <select name="Hypertension" id="Hypertension">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </select><br>
+            <label for="Diabetes">Diabetes</label>
+            <select name="Diabetes" id="Diabetes">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br>
 
-        <label for="SystolicBP">Systolic BP: <span id="SystolicBPValue"></span></label>
-        <input type="range" min="90" max="180" name="SystolicBP" id="SystolicBP" oninput="updateSliderValue(this.value, 'SystolicBPValue')" /><br>
+            <label for="Depression">Depression</label>
+            <select name="Depression" id="Depression">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br>
 
-        <label for="DiastolicBP">Diastolic BP: <span id="DiastolicBPValue"></span></label>
-        <input type="range" min="60" max="120" name="DiastolicBP" id="DiastolicBP" oninput="updateSliderValue(this.value, 'DiastolicBPValue')" /><br>
+            <label for="HeadInjury">Head Injury</label>
+            <select name="HeadInjury" id="HeadInjury">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br>
 
-        <label for="CholesterolTotal">Cholesterol Total: <span id="CholesterolTotalValue"></span></label>
-        <input type="range" min="150" max="300"  name="CholesterolTotal" id="CholesterolTotal" oninput="updateSliderValue(this.value, 'CholesterolTotalValue')" /><br>
+            <label for="Hypertension">Hypertension</label>
+            <select name="Hypertension" id="Hypertension">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br>
 
-        <label for="CholesterolLDL">Cholesterol LDL: <span id="CholesterolLDLValue"></span></label>
-        <input type="range" min="50" max="200"  name="CholesterolLDL" id="CholesterolLDL" oninput="updateSliderValue(this.value, 'CholesterolLDLValue')" /><br>
+            <label for="SystolicBP">Systolic BP: <span id="SystolicBPValue"></span></label>
+            <input type="range" min="90" max="180" name="SystolicBP" id="SystolicBP" oninput="updateSliderValue(this.value, 'SystolicBPValue')" /><br>
 
-        <label for="CholesterolHDL">Cholesterol HDL: <span id="CholesterolHDLValue"></span></label>
-        <input type="range" min="20" max="100"  name="CholesterolHDL" id="CholesterolHDL" oninput="updateSliderValue(this.value, 'CholesterolHDLValue')" /><br>
+            <label for="DiastolicBP">Diastolic BP: <span id="DiastolicBPValue"></span></label>
+            <input type="range" min="60" max="120" name="DiastolicBP" id="DiastolicBP" oninput="updateSliderValue(this.value, 'DiastolicBPValue')" /><br>
 
-        <label for="CholesterolTriglycerides">Cholesterol Triglycerides: <span id="CholesterolTriglyceridesValue"></span></label>
-        <input type="range" min="50" max="400"  name="CholesterolTriglycerides" id="CholesterolTriglycerides" oninput="updateSliderValue(this.value, 'CholesterolTriglyceridesValue')" /><br>
+            <label for="CholesterolTotal">Cholesterol Total: <span id="CholesterolTotalValue"></span></label>
+            <input type="range" min="150" max="300"  name="CholesterolTotal" id="CholesterolTotal" oninput="updateSliderValue(this.value, 'CholesterolTotalValue')" /><br>
 
-        <label for="MMSE">MMSE: <span id="MMSEValue"></span></label>
-        <input type="range" min="0" max="30"  name="MMSE" id="MMSE" oninput="updateSliderValue(this.value, 'MMSEValue')" /><br>
+            <label for="CholesterolLDL">Cholesterol LDL: <span id="CholesterolLDLValue"></span></label>
+            <input type="range" min="50" max="200"  name="CholesterolLDL" id="CholesterolLDL" oninput="updateSliderValue(this.value, 'CholesterolLDLValue')" /><br>
 
-        <label for="FunctionalAssessment">Functional Assessment: <span id="FunctionalAssessmentValue"></span></label>
-        <input type="range" min="0" max="10"  name="FunctionalAssessment" id="FunctionalAssessment" oninput="updateSliderValue(this.value, 'FunctionalAssessmentValue')" /><br>
+            <label for="CholesterolHDL">Cholesterol HDL: <span id="CholesterolHDLValue"></span></label>
+            <input type="range" min="20" max="100"  name="CholesterolHDL" id="CholesterolHDL" oninput="updateSliderValue(this.value, 'CholesterolHDLValue')" /><br>
 
-        <label for="MemoryComplaints">Memory Complaints</label>
-        <select name="MemoryComplaints" id="MemoryComplaints">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </select><br>
+            <label for="CholesterolTriglycerides">Cholesterol Triglycerides: <span id="CholesterolTriglyceridesValue"></span></label>
+            <input type="range" min="50" max="400"  name="CholesterolTriglycerides" id="CholesterolTriglycerides" oninput="updateSliderValue(this.value, 'CholesterolTriglyceridesValue')" /><br>
 
-        <label for="BehavioralProblems">Behavioral Problems</label>
-        <select name="BehavioralProblems" id="BehavioralProblems">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </select><br>
+            <label for="MMSE">MMSE: <span id="MMSEValue"></span></label>
+            <input type="range" min="0" max="30"  name="MMSE" id="MMSE" oninput="updateSliderValue(this.value, 'MMSEValue')" /><br>
 
-        <label for="ADL">Activities of Daily Living Score: <span id="ADLValue"></span></label>
-        <input type="range" min="0" max="10"  name="ADL" id="ADL" oninput="updateSliderValue(this.value, 'ADLValue')" /><br>
+            <label for="FunctionalAssessment">Functional Assessment: <span id="FunctionalAssessmentValue"></span></label>
+            <input type="range" min="0" max="10"  name="FunctionalAssessment" id="FunctionalAssessment" oninput="updateSliderValue(this.value, 'FunctionalAssessmentValue')" /><br>
 
-        <label for="Confusion">Confusion</label>
-        <select name="Confusion" id="Confusion">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </select><br>
+            <label for="MemoryComplaints">Memory Complaints</label>
+            <select name="MemoryComplaints" id="MemoryComplaints">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br>
 
-        <label for="Disorientation">Disorientation</label>
-        <select name="Disorientation" id="Disorientation">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </select><br>
+            <label for="BehavioralProblems">Behavioral Problems</label>
+            <select name="BehavioralProblems" id="BehavioralProblems">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br>
 
-        <label for="PersonalityChanges">Personality Changes</label>
-        <select name="PersonalityChanges" id="PersonalityChanges">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </select><br>
+            <label for="ADL">Activities of Daily Living Score: <span id="ADLValue"></span></label>
+            <input type="range" min="0" max="10"  name="ADL" id="ADL" oninput="updateSliderValue(this.value, 'ADLValue')" /><br>
 
-        <label for="DifficultyCompletingTasks">Difficulty Completing Tasks</label>
-        <select name="DifficultyCompletingTasks" id="DifficultyCompletingTasks">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </select><br>
+            <label for="Confusion">Confusion</label>
+            <select name="Confusion" id="Confusion">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br>
 
-        <label for="Forgetfulness">Forgetfulness</label>
-        <select name="Forgetfulness" id="Forgetfulness">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </select><br>
+            <label for="Disorientation">Disorientation</label>
+            <select name="Disorientation" id="Disorientation">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br>
 
-        <button type="submit" class="btn btn-primary btn-block btn-large">Predict Chances of Developing Alzheimer's</button>
-    </form>
+            <label for="PersonalityChanges">Personality Changes</label>
+            <select name="PersonalityChanges" id="PersonalityChanges">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br>
 
-    <br>
-    <br>
-    <h4 style="color:Green;">
-        {{ prediction_text }}
-    </h4>
+            <label for="DifficultyCompletingTasks">Difficulty Completing Tasks</label>
+            <select name="DifficultyCompletingTasks" id="DifficultyCompletingTasks">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br>
+
+            <label for="Forgetfulness">Forgetfulness</label>
+            <select name="Forgetfulness" id="Forgetfulness">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br>
+
+            <button type="submit" class="btn btn-primary btn-block btn-large">Predict Chances of Developing Alzheimer's</button>
+        </form>
+
+        <br>
+        <br>
+        <h4 style="color:Green;">
+            {{ prediction_text }}
+        </h4>
+    </div>
+    <div class="content">
+
+            <h2>Lifestyle Factors</h2>
+            <ul>
+                <li><strong>BMI:</strong> Body Mass Index of the patients, ranging from 15 to 40.</li>
+                <li><strong>Smoking:</strong> Smoking status, where 0 indicates No and 1 indicates Yes.</li>
+                <li><strong>Alcohol Consumption:</strong> Weekly alcohol consumption in units, ranging from 0 to 20.</li>
+                <li><strong>Physical Activity:</strong> Weekly physical activity in hours, ranging from 0 to 10.</li>
+                <li><strong>Diet Quality:</strong> Diet quality score, ranging from 0 to 10.</li>
+                <li><strong>Sleep Quality:</strong> Sleep quality score, ranging from 4 to 10.</li>
+            </ul>
+
+            <h2>Medical History</h2>
+            <ul>
+                <li><strong>Family History Of Alzheimers:</strong> Family history of Alzheimer's Disease, where 0 indicates No and 1 indicates Yes.</li>
+                <li><strong>Cardiovascular Disease:</strong> Presence of cardiovascular disease, where 0 indicates No and 1 indicates Yes.</li>
+                <li><strong>Diabetes:</strong> Presence of diabetes, where 0 indicates No and 1 indicates Yes.</li>
+                <li><strong>Depression:</strong> Presence of depression, where 0 indicates No and 1 indicates Yes.</li>
+                <li><strong>Head Injury:</strong> History of head injury, where 0 indicates No and 1 indicates Yes.</li>
+                <li><strong>Hypertension:</strong> Presence of hypertension, where 0 indicates No and 1 indicates Yes.</li>
+            </ul>
+
+            <h2>Clinical Measurements</h2>
+            <ul>
+                <li><strong>Systolic BP:</strong> Systolic blood pressure, ranging from 90 to 180 mmHg.</li>
+                <li><strong>Diastolic BP:</strong> Diastolic blood pressure, ranging from 60 to 120 mmHg.</li>
+                <li><strong>Cholesterol Total:</strong> Total cholesterol levels, ranging from 150 to 300 mg/dL.</li>
+                <li><strong>Cholesterol LDL:</strong> Low-density lipoprotein cholesterol levels, ranging from 50 to 200 mg/dL.</li>
+                <li><strong>Cholesterol HDL:</strong> High-density lipoprotein cholesterol levels, ranging from 20 to 100 mg/dL.</li>
+                <li><strong>Cholesterol Triglycerides:</strong> Triglycerides levels, ranging from 50 to 400 mg/dL.</li>
+            </ul>
+
+            <h2>Cognitive and Functional Assessments</h2>
+            <ul>
+                <li><strong>MMSE:</strong> Mini-Mental State Examination score, ranging from 0 to 30. Lower scores indicate cognitive impairment.</li>
+                <li><strong>Functional Assessment:</strong> Functional assessment score, ranging from 0 to 10. Lower scores indicate greater impairment.</li>
+                <li><strong>Memory Complaints:</strong> Presence of memory complaints, where 0 indicates No and 1 indicates Yes.</li>
+                <li><strong>Behavioral Problems:</strong> Presence of behavioral problems, where 0 indicates No and 1 indicates Yes.</li>
+                <li><strong>ADL:</strong> Activities of Daily Living score, ranging from 0 to 10. Lower scores indicate greater impairment. If you can live completely independently, your score is a 10.</li>
+            </ul>
+
+            <h2>Symptoms</h2>
+            <ul>
+                <li><strong>Confusion:</strong> Presence of confusion, where 0 indicates No and 1 indicates Yes.</li>
+                <li><strong>Disorientation:</strong> Presence of disorientation, where 0 indicates No and 1 indicates Yes.</li>
+                <li><strong>Personality Changes:</strong> Presence of personality changes, where 0 indicates No and 1 indicates Yes.</li>
+                <li><strong>Difficulty CompletingTasks:</strong> Presence of difficulty completing tasks, where 0 indicates No and 1 indicates Yes.</li>
+                <li><strong>Forgetfulness:</strong> Presence of forgetfulness, where 0 indicates No and 1 indicates Yes.</li>
+            </ul>
+    </div>
 </div>
+
 </body>
 </html>

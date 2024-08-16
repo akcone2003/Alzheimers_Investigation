@@ -1,7 +1,4 @@
-import joblib
-import numpy as np
 from flask import Flask, request, render_template
-import pickle
 import pandas as pd
 import json
 from model_loader import load_model
@@ -13,11 +10,6 @@ app = Flask(__name__)
 model = load_model()
 
 
-# Print model configuration
-print("Model Configuration:")
-print(model.get_params())
-
-
 # Define route to be home
 # The decorator below links the relative route of the URL to the function it is decorating
 # Home function is the '/' our root directory
@@ -26,11 +18,27 @@ print(model.get_params())
 # use the route() decorator to tell Flask what URL should trigger our function
 @app.route('/')
 def home():
+    """
+
+    Home Method
+
+    This method is used to render the index.html template and return it.
+
+    :return: The rendered index.html template
+
+    """
     return render_template("index.html")
 
 
 # need to process the features the same way in the live data form
 def process_features(raw_features):
+    """
+    Process the raw features and compute additional features.
+
+    :param raw_features: dictionary containing the raw features
+    :return: DataFrame containing the processed features
+
+    """
     # Load the feature weights
     with open('weights/health_weights.json', 'r') as file:
         health_weights = json.load(file)
@@ -53,21 +61,17 @@ def process_features(raw_features):
     # Create DataFrame
     features_df = pd.DataFrame([raw_features], columns=df_columns)
 
-    print(f"Dataframe BEFORE additional features are computed {features_df.to_dict()}\n")  # DEBUG
-
     # Compute additional features
+    # Computing HealthScore
     features_df['HealthScore'] = sum(features_df[col] * weight for col, weight in health_weights.items()
                                      if col in features_df.columns)
+    # Computing CardiometabolicIndex
     features_df['CardiometabolicIndex'] = sum(
         features_df[col] * weight for col, weight in cardiometabolic_weights.items()
         if col in features_df.columns)
 
+    # Computing the TotalHealthScore
     features_df['TotalHealthScore'] = features_df['HealthScore'] + features_df['CardiometabolicIndex']
-
-    pd.set_option('display.max_columns', None)
-    pd.set_option('display.max_rows', None)
-
-    print(f"Dataframe AFTER additional features are computed {features_df.to_dict()}\n")  # DEBUG
 
     return features_df
 
@@ -75,10 +79,37 @@ def process_features(raw_features):
 @app.route('/predict', methods=['POST'])
 def predict():
     """
-    This method is used to predict the probability of Alzheimer's disease based on a set of input features.
+    :return: The predicted risk level of developing Alzheimer's disease.
+    The predicted risk level is returned as a string, which can be one of the following:
+    - "high" : Indicates a high risk of developing Alzheimer's disease.
+    - "moderate" : Indicates a moderate risk of developing Alzheimer's disease.
+    - "low" : Indicates a low risk of developing Alzheimer's disease.
 
-    :return: A rendered HTML template with the prediction result and risk level.
+    The prediction is made based on the given features provided in the form data.
 
+    The features are casted to their respective data types as defined in the `feature_types`
+    dictionary. This dictionary maps the feature names to their data types.
+
+    The features are then processed using the `process_features` method, which returns a
+    processed features dataframe.
+
+    The trained model is used to make predictions on the processed features dataframe.
+    The prediction is returned as an array of probabilities. The second element of this array
+    represents the probability of developing Alzheimer's disease.
+
+    The predicted probability is rounded to 4 decimal places and stored in the `output` variable.
+
+    The risk level is assessed based on the `output` probability. If the `output` probability is
+    greater than or equal to 0.7, the risk level is set to "high". If the `output` probability is
+    greater than or equal to 0.4, the risk level is set to "moderate". Otherwise, the risk level
+    is set to "low".
+
+    The prediction and risk level are rendered in the 'index.html' template using the Flask
+    `render_template` function. The prediction is displayed as the chances of developing
+    Alzheimer's disease in percentage form (output * 100) and the risk level is displayed
+    accordingly.
+
+    In case of any exception, an error message is logged and the exception is raised.
     """
     try:
 
@@ -125,22 +156,12 @@ def predict():
         casted_features = [feature_types[feature_name](feature_value) for feature_name, feature_value in
                            zip(feature_types, raw_features)]
 
-        print(f'Raw features: {casted_features}')
-        # DEBUG
         processed_features_df = process_features(casted_features)
-
-        print(f'Processed features: {processed_features_df.to_dict()}\n')  # DEBUG
-        print(f'Processed features shape: {processed_features_df.shape}\n')  # DEBUG
-
-        print(f'Features expected by the model: {model.feature_names_in_}')  # DEBUG
-        print(f'Features provided for prediction: {processed_features_df.columns}')  # DEBUG
 
         # Making predictions using trained model
         prediction = model.predict_proba(processed_features_df)
 
-        print(f"Prediction for negative: {np.round(prediction[0], 2)} "
-              f"and Prediction for Positive: {np.round(prediction[0][1], 2)}")
-        output = round(prediction[0][1], 2)
+        output = round(prediction[0][1], 4)
 
         # Assessing risk
         if output >= 0.7:
@@ -151,7 +172,7 @@ def predict():
             risk_level = "low"
 
         return render_template('index.html',
-                               prediction_text=f"The probability of Alzheimer's is {output}. This indicates a {risk_level} risk.")
+                               prediction_text=f"Your chances of developing Alzheimer's is {output * 100}%. This indicates a {risk_level} risk.")
     except Exception as e:
         app.logger.error(f'Error occurred: {e}')
         raise e
