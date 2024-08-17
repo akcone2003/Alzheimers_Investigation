@@ -1,14 +1,13 @@
 from flask import Flask, request, render_template
 import pandas as pd
-import json
-from model_loader import load_model
+from joblib import load
 
 # Create app object using Flask class
 app = Flask(__name__)
 
-# Load the model
-model = load_model()
-
+# load model
+with open('models/model.pkl', 'rb') as f:
+    model = load(f)
 
 # Define route to be home
 # The decorator below links the relative route of the URL to the function it is decorating
@@ -39,12 +38,21 @@ def process_features(raw_features):
     :return: DataFrame containing the processed features
 
     """
-    # Load the feature weights
-    with open('weights/health_weights.json', 'r') as file:
-        health_weights = json.load(file)
+    # Define the feature weights
+    health_weights = {
+        "SystolicBP": 0.16713048467999211, "CholesterolTotal": 0.20538780018515296,
+        "CholesterolLDL": 0.20371637265656023,
+        "CholesterolHDL": 0.21295212981036069, "CholesterolTriglycerides": 0.21081321266793412,
+        "BMI": 0.19723692111125013, "PhysicalActivity": 0.1880104973471069,
+        "DietQuality": 0.19348311953836947, "SleepQuality": 0.20101583931020794,
+        "Smoking": 0.023329569340162733, "AlcoholConsumption": 0.1969240533529028
+    }
 
-    with open('weights/cardiometabolic_weights.json', 'r') as file:
-        cardiometabolic_weights = json.load(file)
+    cardiometabolic_weights = {
+        "SystolicBP": 0.16713048467999211, "CholesterolTotal": 0.20538780018515296,
+        "CholesterolLDL": 0.20371637265656023,
+        "CholesterolHDL": 0.21295212981036069, "CholesterolTriglycerides": 0.21081321266793412,
+    }
 
     # Define data columns
     df_columns = [
@@ -179,4 +187,4 @@ def predict():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=False)
