@@ -6,7 +6,7 @@ from flask import json
 
 # Patch 'load_model' before importing 'main'
 with patch('model_loader.load_model'):
-    from main import app  # Importing the app after patch
+    from app import app  # Importing the app after patch
 
 
 class TestPredictFunction(unittest.TestCase):
@@ -63,11 +63,11 @@ class TestPredictFunction(unittest.TestCase):
             'Forgetfulness': '1',
         }
 
-    @patch('main.load_model')
-    @patch('main.process_features', return_value=pd.DataFrame())
-    @patch('main.render_template', return_value="The probability of Alzheimer's is 0.75. This indicates a high risk.")
-    @patch('main.model.predict_proba', return_value=np.array([[0.25, 0.75]]))
-    @patch('main.open', create=True)
+    @patch('app.load_model')
+    @patch('app.process_features', return_value=pd.DataFrame())
+    @patch('app.render_template', return_value="The probability of Alzheimer's is 0.75. This indicates a high risk.")
+    @patch('app.model.predict_proba', return_value=np.array([[0.25, 0.75]]))
+    @patch('app.open', create=True)
     def test_predict(self, mock_predict_proba, mock_render_template, mock_process_features, mock_load_model, mock_open):
         """
         Tests the '/predict' route of the application.
@@ -112,7 +112,7 @@ class TestPredictFunction(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data.decode(), "The probability of Alzheimer's is 0.75. This indicates a high risk.")
 
-    @patch('main.process_features', return_value=pd.DataFrame())
+    @patch('app.process_features', return_value=pd.DataFrame())
     def test_predict_exception(self,_):
         """
         Tests the exception handling mechanism in the '/predict' route by sending incorrect sample data
