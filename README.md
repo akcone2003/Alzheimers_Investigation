@@ -1,7 +1,3 @@
-Here's a README file for your Alzheimer's disease risk prediction app:
-
----
-
 # Alzheimer's Disease Risk Prediction App
 
 ## Problem Statement
