@@ -57,6 +57,7 @@ The model is deployed as a web application using **Heroku** and **Flask**. Key s
 
 3. **Heroku Deployment**: Deployed the Flask app on Heroku for scalability and reliability. Utilized Heroku's security features and monitoring tools for a secure and responsive application.
 
+[Link to app](https://alzheimers-prediction-app-bd66bc1fb040.herokuapp.com/)
 ## Key Features
 
 - **User Input**: Provides an intuitive HTML frontend for data input.
